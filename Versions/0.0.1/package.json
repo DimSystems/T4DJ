@@ -14,12 +14,9 @@
     "typecheck": "tsc -p tsconfig.eslint.json"
   },
   "repository": {
+    "type": "git",
     "url": "https://github.com/DimSystems/T4DJ.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  
   "keywords": [
     "discord.js",
     "discord.js-transcripts",
