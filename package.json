@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A highly modified version of discord-html-transcripts",
   "main": "dist/index.js",
-  "homepage": "https://github.com/DimSystems/T4DJ",
+  "homepage": "https://github.com/DimSystems/t4dj",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,12 +14,8 @@
     "typecheck": "tsc -p tsconfig.eslint.json"
   },
   "repository": {
-    "url": "https://github.com/DimSystems/T4DJ.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  
+    "url": "https://github.com/DimSystems/t4dj.git"
+  },  
   "keywords": [
     "discord.js",
     "discord.js-transcripts",
