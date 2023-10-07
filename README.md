@@ -2,8 +2,8 @@
 
 [![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/rf5qN7C)
 [![npm](https://img.shields.io/npm/dw/T4DJ)](http://npmjs.org/package/T4DJ)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/ItzDerock/T4DJ)
-![GitHub Repo stars](https://img.shields.io/github/stars/ItzDerock/T4DJ?style=social)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/DimSystems/T4DJ)
+![GitHub Repo stars](https://img.shields.io/github/stars/DimSystems/T4DJ?style=social)
 
 Transcripts 4 Discord.JS is a highly modified version of the Discord-Html-Transcripts by derock with translations, more customaization and more. MOST components are originally made by derock and please give kudos to him
 
