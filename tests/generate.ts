@@ -17,8 +17,8 @@ client.on('ready', async () => {
   }
 
   const attachment = await createTranscript(channel, {
-   Language: "Dutch",
-   hydrate: true
+   Language: "English",
+  
   });
 
   await channel.send({

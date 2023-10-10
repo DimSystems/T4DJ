@@ -104,6 +104,12 @@ export default async function renderMessage(message: Message, context: RenderMes
         </DiscordReactions>
       )}
 
+      { // I will work on it when i have time :(
+        message.stickers.size > 0 && (
+          <h1>Stickers are NOT supported yet :( Coming in the next update!</h1>
+        )
+      }
+
       {/* threads */}
       {message.hasThread && message.thread && (
         <DiscordThread

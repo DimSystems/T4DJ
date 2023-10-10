@@ -49,8 +49,45 @@ export type RenderMessageContext = {
     resolveRole: (roleId: string) => Awaitable<Role | null>;
   };
   customCSS: {
-    Primary?:  any;
-    TextTheme?: any;
+    GlobalCSS?: {
+      BackgroundColor?: any,
+      Color?: any,
+    },
+    MessagesCSS1?: {
+     Color?: any,
+     BackgroundColor?: any,
+     Display?: any,
+     FontSize?: any,
+     FontFamily?: any,
+     LineHeight?: any,
+     Border?: any
+    }, 
+    MessagesCSS2?: {
+      Color?: any,
+      Display?: any,
+      FontSize?: any,
+      FontFamily?: any,
+      Padding?: any,
+      Position?: any,
+      WordWrap?: any,
+      Flex?: any,
+      MinHeight?: any,
+      PaddingRight?: any,
+      MarginTop?: any
+    }, 
+    MessageReplyCSS?: {
+      Color?: any,
+      Display?: any,
+      FontSize?: any,
+      FontFamily?: any,
+      PaddingTop?: any,
+      MarginLeft?: any,
+      MarginBottom?: any,
+      AlignItems?: any,
+      Position?: any,
+      WhiteSpace?: any,
+      UserSelect?: any
+    }
   }; // I work on custom css later for now, ill add 2 simple little settings.
   poweredBy?: boolean;
   useNewCSS?: boolean;
@@ -126,7 +163,7 @@ export default async function renderMessages({ messages, channel, callbacks, ...
     if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "DUTCH"){
       console.warn("[T4DJ | Configuration Warning] Het lijkt erop dat je wat aangepaste css wilt toevoegen, maar dat is niet mogelijk als de nieuwe css is ingeschakeld.")
     } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "ENGLISH")
-    console.warn(`[T4DJ | Configuration Warning] Hydrated files will not use custom css, beware!`)
+    console.warn(`[T4DJ | Configuration Warning] Hydrated files will not use custom css. Custom CSS has been disabled due to it using ONLINE services...`)
   }
 
   for (const message of messages) {
@@ -147,7 +184,7 @@ export default async function renderMessages({ messages, channel, callbacks, ...
   const elements = (
     <DiscordMessages style={{ minHeight: '100vh' }}>
       <style>
-        {options.useNewCSS
+        {options.useNewCSS && !options.hydrate
           ? `@import url('https://fonts.bunny.net/css?family=roboto:400,500,700');
 @font-face {
   font-family:'Whitney';
@@ -174,14 +211,13 @@ export default async function renderMessages({ messages, channel, callbacks, ...
   font-display:swap
 }
 .discord-messages {
-  color: ${options.customCSS.TextTheme || "#afafaf"};
-  background-color: ${options.customCSS.Primary || "#1a1818"};
-  display:block;
-  font-size:16px;
-  font-family:Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  line-height:170%;
-  border:5px solid rgba(0, 0, 0, 0.05);
+  color: ${options.customCSS.GlobalCSS?.Color ?? options.customCSS.MessagesCSS1?.Color ?? "#afafaf"};
+  background-color: ${options.customCSS.GlobalCSS?.BackgroundColor ?? options.customCSS.MessagesCSS1?.BackgroundColor ?? "#1a1818"};
+  display: ${options.customCSS.MessagesCSS1?.Display};
+  font-size: ${options.customCSS.MessagesCSS1?.FontSize};
+  font-family: ${options.customCSS.MessagesCSS1?.FontFamily};
+  line-height: ${options.customCSS.MessagesCSS1?.LineHeight};
+  border: ${options.customCSS.MessagesCSS1?.Border}
 }
 .discord-messages.discord-light-theme {
   color:#747f8d;
@@ -227,26 +263,25 @@ export default async function renderMessages({ messages, channel, callbacks, ...
   font-weight:bold;
   font-style: italic;
 }.discord-message {
-  color: ${options.customCSS.TextTheme || "#dcddde"};
-  display:flex;
+  color: ${options.customCSS.GlobalCSS?.Color ?? options.customCSS.MessagesCSS2?.Color ?? "#dcddde"};
+  display: ${options.customCSS.MessagesCSS2?.Display};
   flex-direction:column;
-  font-size:0.9em;
-  font-family:Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  padding:0px 1em;
-  position:relative;
-  word-wrap:break-word;
+  font-size: ${options.customCSS.MessagesCSS2?.FontSize};
+  font-family: ${options.customCSS.MessagesCSS2?.FontFamily};
+  padding: ${options.customCSS.MessagesCSS2?.Padding};
+  position: ${options.customCSS.MessagesCSS2?.Position};
+  word-wrap: ${options.customCSS.MessagesCSS2?.WordWrap};
  -webkit-user-select:text;
   -moz-user-select:text;
   -ms-user-select:text;
   user-select:text;
   -webkit-box-flex:0;
   -ms-flex:0 0 auto;
-  flex:0 0 auto;
-  padding-right:0;
-  min-height:1.375rem;
-  padding-right:48px !important;
-  margin-top:1.0625rem
+  flex: ${options.customCSS.MessagesCSS2?.Flex};
+  padding-right: ${options.customCSS.MessagesCSS2?.Padding};
+  min-height: ${options.customCSS.MessagesCSS2?.MinHeight};
+  padding-right: ${options.customCSS.MessagesCSS2?.PaddingRight};
+  margin-top: ${options.customCSS.MessagesCSS2?.MarginTop};
 }
 .discord-message .discord-message-inner {
   display:flex;
@@ -610,7 +645,7 @@ export default async function renderMessages({ messages, channel, callbacks, ...
 .discord-embed .discord-embed-author {
   -webkit-box-align:center;
   align-items:center;
-  color: ${options.customCSS.TextTheme || "#fff"};
+  color: ${options.customCSS.GlobalCSS?.Color ?? options.customCSS.MessagesCSS1?.Color ?? "#fff"};
   font-size:14px;
   display:flex;
   font-weight:600;
@@ -748,19 +783,18 @@ export default async function renderMessages({ messages, channel, callbacks, ...
   top:0.125rem
 }
 .discord-replied-message {
-  color:#b9bbbe;
-  display:flex;
-  font-size:0.875rem;
-  font-family:Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  padding-top:2px;
-  margin-left:56px;
-  margin-bottom:4px;
-  align-items:center;
+  color: ${options.customCSS.MessageReplyCSS?.Color};
+  display: ${options.customCSS.MessageReplyCSS?.Display};
+  font-size: ${options.customCSS.MessageReplyCSS?.FontSize};
+  font-family: ${options.customCSS.MessageReplyCSS?.FontFamily};
+  padding-top: ${options.customCSS.MessageReplyCSS?.PaddingTop}; 
+  margin-left: ${options.customCSS.MessageReplyCSS?.MarginLeft};
+  margin-bottom: ${options.customCSS.MessageReplyCSS?.MarginBottom};
+  align-items: ${options.customCSS.MessageReplyCSS?.AlignItems};
   /*! line-height:1.125rem; */
-  position:relative;
-  white-space:pre;
-  user-select:none
+  position: ${options.customCSS.MessageReplyCSS?.Position};
+  white-space: ${options.customCSS.MessageReplyCSS?.WhiteSpace};
+  user-select: ${options.customCSS.MessageReplyCSS?.UserSelect};
 }
 .discord-light-theme .discord-replied-message {
   color:#4f5660
@@ -887,11 +921,11 @@ export default async function renderMessages({ messages, channel, callbacks, ...
   font-weight:500
 }
 .discord-light-theme .discord-message .discord-author-info .discord-author-username {
-  color:#23262a
+  color:  ${options.customCSS.GlobalCSS?.Color ?? options.customCSS.MessagesCSS1?.Color ?? '#23262a' }
 }
 .discord-message .discord-author-info .discord-application-tag {
   background-color:#5865f2;
-  color: ${options.customCSS.TextTheme || "#fff"};
+  color: ${options.customCSS.GlobalCSS?.Color ?? options.customCSS.MessagesCSS1?.Color ?? "#fff"};
   font-size:0.625em;
   margin-left:4px;
   border-radius:3px;

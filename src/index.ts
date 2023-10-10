@@ -47,8 +47,49 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
       ...(options.callbacks ?? {}),
     },
     customCSS: {
-      Primary: options.customCSS?.Primary ?? "1a1818", 
-      TextTheme: options.customCSS?.TextTheme ?? "afafaf",
+      GlobalCSS: {
+        BackgroundColor: options.customCSS?.GlobalCSS?.BackgroundColor, 
+        Color: options.customCSS?.GlobalCSS?.Color,
+      },
+      MessagesCSS1: {
+       Color: options.customCSS?.MessagesCSS1?.Color ?? "#afafaf",
+       BackgroundColor: options.customCSS?.MessagesCSS1?.BackgroundColor ?? "#1a1818",
+       Display: options.customCSS?.MessagesCSS1?.Display ?? "block",
+       FontSize: options.customCSS?.MessagesCSS1?.FontSize ?? "16px",
+       FontFamily: options.customCSS?.MessagesCSS1?.FontFamily ?? `Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+       sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
+       LineHeight: options.customCSS?.MessagesCSS1?.LineHeight ?? "170%",
+       Border: options.customCSS?.MessagesCSS1?.Border ?? "5px solid rgba(255, 255, 255, 0.05);"
+      }, 
+      MessagesCSS2: {
+        Color: options.customCSS?.MessagesCSS2?.Color ?? "#afafaf",
+        Display: options.customCSS?.MessagesCSS2?.Display ?? "flex",
+        FontSize: options.customCSS?.MessagesCSS2?.FontSize ?? "0.9em",
+        FontFamily: options.customCSS?.MessagesCSS2?.FontFamily ?? `Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
+        Padding: options.customCSS?.MessagesCSS2?.Padding ?? "0px 1em",
+        Position: options.customCSS?.MessagesCSS2?.Position ?? "relative",
+        WordWrap: options.customCSS?.MessagesCSS2?.WordWrap ?? "break-word",
+        Flex: options.customCSS?.MessagesCSS2?.Flex ?? "0 0 auto",
+        MinHeight: options.customCSS?.MessagesCSS2?.MinHeight ?? "1.375rem",
+        PaddingRight: options.customCSS?.MessagesCSS2?.PaddingRight ?? "48px !important;",
+        MarginTop: options.customCSS?.MessagesCSS2?.MarginTop ?? "1.0625rem"
+      }, 
+      MessageReplyCSS: {
+        Color: options.customCSS?.MessageReplyCSS?.Color ?? "#b9bbbe",
+        Display: options.customCSS?.MessageReplyCSS?.Display ?? "flex",
+        FontSize: options.customCSS?.MessageReplyCSS?.FontSize ?? "0.875rem",
+        FontFamily: options.customCSS?.MessageReplyCSS?.FontFamily ?? `Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
+        PaddingTop: options.customCSS?.MessageReplyCSS?.PaddingTop ?? "2px",
+        MarginLeft: options.customCSS?.MessageReplyCSS?.MarginLeft ?? "56px",
+        MarginBottom: options.customCSS?.MessageReplyCSS?.MarginBottom ?? "4px",
+        AlignItems: options.customCSS?.MessageReplyCSS?.AlignItems ?? "center",
+        Position: options.customCSS?.MessageReplyCSS?.Position ?? "relative",
+        WhiteSpace: options.customCSS?.MessageReplyCSS?.WhiteSpace ?? "pre",
+        UserSelect: options.customCSS?.MessageReplyCSS?.UserSelect ?? "none"
+      },
+   
       ...(options.customCSS ?? { }),
     },
     poweredBy: options.poweredBy ?? true,

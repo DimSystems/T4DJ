@@ -1,9 +1,9 @@
 {
   "name": "@dimsystems/t4dj",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A highly modified version of discord-html-transcripts",
   "main": "dist/index.js",
-  "homepage": "https://github.com/DimSystems/t4dj",
+  "homepage": "https://github.com/dimsystems/t4dj",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,8 +14,12 @@
     "typecheck": "tsc -p tsconfig.eslint.json"
   },
   "repository": {
-    "url": "https://github.com/DimSystems/t4dj.git"
-  },  
+    "type": "git",
+    "url": "https://github.com/dimsystems/t4dj.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/dimsystems"
+  },
   "keywords": [
     "discord.js",
     "discord.js-transcripts",
@@ -49,6 +53,7 @@
   "dependencies": {
     "@derockdev/discord-components-core": "^3.6.1",
     "@derockdev/discord-components-react": "^3.6.1",
+    "@dimsystems/t4dj": "^0.0.1",
     "discord-markdown-parser": "~1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

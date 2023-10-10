@@ -1,7 +1,6 @@
 # `Transcripts 4 Discord.JS` 
 
-[![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/rf5qN7C)
-[![npm](https://img.shields.io/npm/dw/T4DJ)](http://npmjs.org/package/T4DJ)
+[![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/aG6fENXT)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/DimSystems/T4DJ)
 ![GitHub Repo stars](https://img.shields.io/github/stars/DimSystems/T4DJ?style=social)
 
@@ -112,8 +111,10 @@ const attachment = await discordTranscripts.createTranscript(channel, {
       resolveRole: (roleId: string) => Awaitable<Role | null>
     },
     customCSS: { // Custom CSS is optional and i recommand you use this feature in a future update where theres way more options to use.
-      Primary: "black" // Any color for the background theme, this has to be compatiable with the CSS Language.
-      TextTheme: "white" // Same as primary
+      GlobalCSS: {
+        BackgroundColor: "RED",
+        Color: "BLUE" // I'll make a readme update when i have time!
+      } // Custom CSS contains 3 features, Global CSS, Message1 CSS and Message 2 (For actual messages) and replys more soon!
     }, // More customaizable options are coming soon, this is just a minor feature for now...
     Language: "English" // Any compatiable languages. You can check below for compatiable or upcoming translations
     poweredBy: true, // Whether to include the "Powered by T4DJ" footer

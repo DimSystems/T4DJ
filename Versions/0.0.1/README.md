@@ -1,7 +1,6 @@
 # `Transcripts 4 Discord.JS` 
 
-[![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/rf5qN7C)
-[![npm](https://img.shields.io/npm/dw/T4DJ)](http://npmjs.org/package/T4DJ)
+[![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/aG6fENXT)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/DimSystems/T4DJ)
 ![GitHub Repo stars](https://img.shields.io/github/stars/DimSystems/T4DJ?style=social)
 
