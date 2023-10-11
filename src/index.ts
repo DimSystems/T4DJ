@@ -38,7 +38,14 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
   const html = await renderMessages({
     messages: transformedMessages,
     channel,
-    saveImages: options.saveImages ?? false,
+    FileConfig: {
+      SaveAttachments: options.FileConfig?.SaveAttachments ?? false,
+      SaveExternalEmojis: options.FileConfig?.SaveExternalEmojis ?? false,
+      SaveStickers: options.FileConfig?.SaveStickers ?? false ,
+
+      ...(options.FileConfig ?? {}),
+    },
+    // saveImages: options.saveImages ?? false,
     callbacks: {
       resolveChannel: async (id) => channel.client.channels.fetch(id).catch(() => null),
       resolveUser: async (id) => channel.client.users.fetch(id).catch(() => null),
@@ -100,6 +107,7 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
     headerColor: options.headerColor ?? 'green',
     hydrate: options.hydrate ?? false,
     favicon: options.favicon ?? 'guild',
+
   });
 
   if (options.returnType === ExportReturnType.Buffer) {

@@ -1,7 +1,7 @@
 import {
   DiscordBold,
   DiscordCodeBlock,
-  DiscordCustomEmoji,
+  // DiscordCustomEmoji,
   DiscordInlineCode,
   DiscordItalic,
   DiscordMention,
@@ -15,7 +15,8 @@ import { ChannelType, type APIMessageComponentEmoji } from 'discord.js';
 import React, { Fragment, type ReactNode } from 'react';
 import type { ASTNode, SingleASTNode } from 'simple-markdown';
 import type { RenderMessageContext } from '../';
-import { parseDiscordEmoji } from '../../utils/utils';
+// import { parseDiscordEmoji } from '../../utils/utils';
+import renderEmoji from './emoji';
 
 export enum RenderType {
   EMBED,
@@ -40,6 +41,8 @@ export default async function renderContent(content: string, context: RenderCont
     content,
     context.type === RenderType.EMBED || context.type === RenderType.WEBHOOK ? 'extended' : 'normal'
   );
+
+
 
   // check if the parsed content is only emojis
   const isOnlyEmojis = parsed.every(
@@ -163,14 +166,9 @@ export async function renderASTNode(node: SingleASTNode, context: RenderContentC
 
     case 'emoji':
     case 'twemoji':
-      return (
-        <DiscordCustomEmoji
-          name={node.name}
-          url={parseDiscordEmoji(node as APIMessageComponentEmoji)}
-          embedEmoji={context.type === RenderType.EMBED}
-          largeEmoji={context._internal?.largeEmojis}
-        />
-      );
+    return <>
+      {await renderEmoji(node as APIMessageComponentEmoji, context, context)}
+      </>
 
     case 'timestamp':
       return <DiscordTime timestamp={parseInt(node.timestamp) * 1000} format={node.format} />;

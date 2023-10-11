@@ -16,6 +16,7 @@ import renderComponentRow from './components';
 import renderContent, { RenderType } from './content';
 import { renderEmbed } from './embed';
 import renderReply from './reply';
+import renderSticker from './sticker';
 import renderSystemMessage from './systemMessage';
 
 
@@ -55,8 +56,20 @@ export default async function renderMessage(message: Message, context: RenderMes
       highlight={message.mentions.everyone}
       profile={message.author.id}
     >
+
+{ /* Stickers */ }
+{await renderSticker(message, context)}
+
       {/* reply */}
       {await renderReply(message, context)}
+
+       {/* Interaction Failure Check */}
+       { message.interaction && message.content.length == 0 && message.embeds.length == 0 && (
+       <>
+       <svg aria-hidden="true" role="img" width="32" height="32" viewBox="0 0 20 20" fill='#ed4550'><path d="M10 0C4.486 0 0 4.486 0 10C0 15.515 4.486 20 10 20C15.514 20 20 15.515 20 10C20 4.486 15.514 0 10 0ZM9 4H11V11H9V4ZM10 15.25C9.31 15.25 8.75 14.691 8.75 14C8.75 13.31 9.31 12.75 10 12.75C10.69 12.75 11.25 13.31 11.25 14C11.25 14.691 10.69 15.25 10 15.25Z"></path></svg>
+       <h4 style={ { color: "#ed4550" } }>This interaction failed to respond! </h4>
+       </> 
+      )}
 
       {/* slash command */}
       {message.interaction && (
@@ -66,6 +79,10 @@ export default async function renderMessage(message: Message, context: RenderMes
           command={'/' + message.interaction.commandName}
         />
       )}
+
+     
+
+
 
       {/* message content */}
       {message.content &&
@@ -91,9 +108,12 @@ export default async function renderMessage(message: Message, context: RenderMes
       )}
 
       {/* reactions */}
-      {message.reactions.cache.size > 0 && (
+      { message.reactions.cache.size > 0 && (
         <DiscordReactions slot="reactions">
-          {message.reactions.cache.map((reaction, id) => (
+          {
+        
+        
+        message.reactions.cache.map((reaction, id) => (
             <DiscordReaction
               key={`${message.id}r${id}`}
               name={reaction.emoji.name!}
@@ -104,11 +124,7 @@ export default async function renderMessage(message: Message, context: RenderMes
         </DiscordReactions>
       )}
 
-      { // I will work on it when i have time :(
-        message.stickers.size > 0 && (
-          <h1>Stickers are NOT supported yet :( Coming in the next update!</h1>
-        )
-      }
+      
 
       {/* threads */}
       {message.hasThread && message.thread && (

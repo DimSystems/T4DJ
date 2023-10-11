@@ -25,6 +25,9 @@ This module can format the following:
 - Replies
 - Mentions
 - Threads
+- Stickers
+- Improved Saving Systems
+- Good customaization
 
 **This module is designed to work with the latest version of [discord.js](https://discord.js.org/#/) _only_. If you need v13 support, roll back to v2.X.X**
 
@@ -34,7 +37,7 @@ Behind the scenes, this package uses React SSR to generate a static site.
 ## 👋 Support
 
 Please do not DM me requesting support with this package, I will not respond.  
-Instead, please open a thread on [this](https://discord.gg/MZQN8QMJg8) server.
+Instead, please open a thread in thie help channel joining [this](https://discord.gg/p3npbXQHSw) discord server.
 
 **This module uses a completely new CSS system and adds new features, there are ways to change back the CSS to the original version**
 
@@ -102,7 +105,7 @@ const attachment = await discordTranscripts.createTranscript(channel, {
     limit: -1, // Max amount of messages to fetch. `-1` recursively fetches.
     returnType: 'attachment', // Valid options: 'buffer' | 'string' | 'attachment' Default: 'attachment' OR use the enum ExportReturnType
     filename: 'transcript.html', // Only valid with returnType is 'attachment'. Name of attachment.
-    saveImages: false, // Download all images and include the image data in the HTML (allows viewing the image even after it has been deleted) (! WILL INCREASE FILE SIZE USE IF NECESSCARY !)
+   // Download all images and include the image data in the HTML (allows viewing the image even after it has been deleted) (! WILL INCREASE FILE SIZE USE IF NECESSCARY !)
     footerText: "Exported {number} message{s}", // Change text at footer, don't forget to put {number} to show how much messages got exported, and {s} for plural
     callbacks: {
       // register custom callbacks for the following:
@@ -110,12 +113,60 @@ const attachment = await discordTranscripts.createTranscript(channel, {
       resolveUser: (userId: string) => Awaitable<User | null>,
       resolveRole: (roleId: string) => Awaitable<Role | null>
     },
-    customCSS: { // Custom CSS is optional and i recommand you use this feature in a future update where theres way more options to use.
+    FileConfig: {
+      SaveAttachments: false, // Saves image attachments in channel
+      SaveExternalEmojis: false, // Saves all external emojis in channel
+      SaveStickers: false // Saves all stickers send in channnel
+    },
+    callbacks: {
+      resolveChannel: async (id) => channel.client.channels.fetch(id).catch(() => null),
+      resolveUser: async (id) => channel.client.users.fetch(id).catch(() => null),
+      resolveRole: channel.isDMBased() ? () => null : async (id) => channel.guild?.roles.fetch(id).catch(() => null),
+    },
+    customCSS: {  // FOR Users who want to customaize their css alot, needs good css experience
       GlobalCSS: {
-        BackgroundColor: "RED",
-        Color: "BLUE" // I'll make a readme update when i have time!
-      } // Custom CSS contains 3 features, Global CSS, Message1 CSS and Message 2 (For actual messages) and replys more soon!
-    }, // More customaizable options are coming soon, this is just a minor feature for now...
+        BackgroundColor: "Black", 
+        Color: "White",
+      },
+      MessagesCSS1: {
+       Color: "#afafaf",
+       BackgroundColor:  "#1a1818",
+       Display: "block",
+       FontSize: "16px",
+       FontFamily: `Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+       sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
+       LineHeight: "170%",
+       Border: "5px solid rgba(255, 255, 255, 0.05);"
+      }, 
+      MessagesCSS2: {
+        Color:  "#afafaf",
+        Display: "flex",
+        FontSize: "0.9em",
+        FontFamily: `Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
+        Padding: "0px 1em",
+        Position: "relative",
+        WordWrap: "break-word",
+        Flex: "0 0 auto",
+        MinHeight: "1.375rem",
+        PaddingRight: "48px !important;",
+        MarginTop: "1.0625rem"
+      }, 
+      MessageReplyCSS: {
+        Color: "#b9bbbe",
+        Display: "flex",
+        FontSize: "0.875rem",
+        FontFamily: `Whitney, 'Source Sans Pro', ui-sans-serif, system-ui, -apple-system, 'system-ui', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
+        PaddingTop: "2px",
+        MarginLeft: "56px",
+        MarginBottom: "4px",
+        AlignItems: "center",
+        Position: "relative",
+        WhiteSpace: "pre",
+        UserSelect: "none"
+      },
+    },
     Language: "English" // Any compatiable languages. You can check below for compatiable or upcoming translations
     poweredBy: true, // Whether to include the "Powered by T4DJ" footer
     useNewCSS: true, // Whether to use the New CSS or old, although if you are going for a realistic look to discord, use old.

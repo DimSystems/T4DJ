@@ -34,7 +34,7 @@ Behind the scenes, this package uses React SSR to generate a static site.
 ## 👋 Support
 
 Please do not DM me requesting support with this package, I will not respond.  
-Instead, please open a thread on [this](https://discord.gg/MZQN8QMJg8) server.
+Instead, please open a thread in thie help channel joining [this](https://discord.gg/p3npbXQHSw) discord server.
 
 **This module uses a completely new CSS system and adds new features, there are ways to change back the CSS to the original version**
 

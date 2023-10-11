@@ -1,3 +1,5 @@
-# Tests
+# Testing the NPM
 
-not much here
+## Just do npm run test:typescript
+
+thats it

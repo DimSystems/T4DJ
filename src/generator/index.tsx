@@ -48,6 +48,11 @@ export type RenderMessageContext = {
     resolveUser: (userId: string) => Awaitable<User | null>;
     resolveRole: (roleId: string) => Awaitable<Role | null>;
   };
+  FileConfig?: {
+    SaveAttachments?: boolean,
+    SaveExternalEmojis?: boolean,
+    SaveStickers?: boolean
+  },
   customCSS: {
     GlobalCSS?: {
       BackgroundColor?: any,
@@ -95,7 +100,6 @@ export type RenderMessageContext = {
   headerText?: string;
   headerColor?: string;
   Language?: string;
-  saveImages: boolean;
   favicon: 'guild' | string;
   hydrate: boolean;
 };

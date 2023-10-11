@@ -22,12 +22,7 @@ export type GenerateFromMessagesOptions<T extends ExportReturnType> = Partial<{
    */
   returnType: T;
 
-  /**
-   * Downloads images and encodes them as base64 data urls
-   * @default false
-   */
-  saveImages: boolean;
-
+  
   /**
    * Callbacks for resolving channels, users, and roles
    */
@@ -35,8 +30,14 @@ export type GenerateFromMessagesOptions<T extends ExportReturnType> = Partial<{
   /**
    * Add custom CSS to create a unique and fresh look into your transcript
    * You will need to enablle useNewCSS in able for this to work!
+   * Hydrate Support is not added.
    */
   customCSS: RenderMessageContext['customCSS'];
+   /**
+   * Configurate how files work from the channel into your transcript
+   * Easy to use!
+   */
+   FileConfig: RenderMessageContext['FileConfig'];
   /**
    * The name of the file to return if returnType is ExportReturnType.ATTACHMENT
    * @default 'transcript-{channel-id}.html'
