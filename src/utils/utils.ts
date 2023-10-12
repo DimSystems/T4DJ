@@ -41,7 +41,7 @@ export async function downloadImageToDataURL(url: string): Promise<string | null
     })
     .catch((err) => {
       if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-        console.error(`[discord-html-transcripts] Failed to download image for transcript: `, err);
+        console.error(`[discord-html-transcripts] Failed to download Attachments for transcript: `, err);
       }
 
       return null;

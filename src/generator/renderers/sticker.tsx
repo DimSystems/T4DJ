@@ -8,9 +8,9 @@ export default async function renderSticker(message: Message, context: RenderMes
 if(message.stickers.size === 0) return null;
 
   return (
-    <h1>
+    <>
  {await Promise.all(message.stickers.map((sticker) => renderStickers1(sticker, context)))}
-    </h1>
+ </>
    
 
         );           

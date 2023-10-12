@@ -2,15 +2,12 @@ import {
   DiscordAttachments,
   DiscordCommand,
   DiscordMessage,
-  DiscordReaction,
-  DiscordReactions,
   DiscordThread,
   DiscordThreadMessage,
 } from '@derockdev/discord-components-react';
 import type { Message } from 'discord.js';
 import React from 'react';
 import type { RenderMessageContext } from '..';
-import { parseDiscordEmoji } from '../../utils/utils';
 import renderAttachments from './attachment';
 import renderComponentRow from './components';
 import renderContent, { RenderType } from './content';
@@ -18,6 +15,7 @@ import { renderEmbed } from './embed';
 import renderReply from './reply';
 import renderSticker from './sticker';
 import renderSystemMessage from './systemMessage';
+import renderReaction from './reaction';
 
 
 const AvailableLanguages = [
@@ -57,11 +55,15 @@ export default async function renderMessage(message: Message, context: RenderMes
       profile={message.author.id}
     >
 
-{ /* Stickers */ }
-{await renderSticker(message, context)}
+{    /* Stickers */ }
+     {await renderSticker(message, context)}
 
       {/* reply */}
       {await renderReply(message, context)}
+
+
+      {/* reactions */}
+      {await renderReaction(message, context)}
 
        {/* Interaction Failure Check */}
        { message.interaction && message.content.length == 0 && message.embeds.length == 0 && (
@@ -103,26 +105,10 @@ export default async function renderMessage(message: Message, context: RenderMes
       {/* components */}
       {message.components.length > 0 && (
         <DiscordAttachments slot="components">
-          {message.components.map((component, id) => renderComponentRow(component, id))}
+          { await Promise.all(message.components.map((component, id) => renderComponentRow(component, id, context)))}
         </DiscordAttachments>
       )}
 
-      {/* reactions */}
-      { message.reactions.cache.size > 0 && (
-        <DiscordReactions slot="reactions">
-          {
-        
-        
-        message.reactions.cache.map((reaction, id) => (
-            <DiscordReaction
-              key={`${message.id}r${id}`}
-              name={reaction.emoji.name!}
-              emoji={parseDiscordEmoji(reaction.emoji)}
-              count={reaction.count}
-            />
-          ))}
-        </DiscordReactions>
-      )}
 
       
 

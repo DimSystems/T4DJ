@@ -79,11 +79,11 @@ channel.send({
 ### Or if you prefer, you can pass in your own messages.
 
 ```js
-const discordTranscripts = require('@dimsystems/t4dj');
-// or (if using typescript) import * as discordTranscripts from '@dimsystems/t4dj';
+const discordTranscripts = require('T4DJ');
+// or (if using typescript) import * as discordTranscripts from 'T4DJ';
 
 const messages = someWayToGetMessages(); // Must be Collection<string, Message> or Message[]
-const channel = someWayToGetChannel(); // Used for channel name, guild icon, and guild name
+const channel = someWayToGetChannel(); // Used for ticket name, guild icon, and guild name
 
 // Must be awaited
 const attachment = await discordTranscripts.generateFromMessages(messages, channel);
@@ -113,9 +113,9 @@ const attachment = await discordTranscripts.createTranscript(channel, {
       resolveUser: (userId: string) => Awaitable<User | null>,
       resolveRole: (roleId: string) => Awaitable<Role | null>
     },
-    FileConfig: { /* NOTICE: THIS IS SAVING IMAGES OR MAYBE VIDEOS NOT .ZIPS OR OTHER UNNECESSCARY EXTENSIONS! THIS WILL TAKE A HUGE HIT ON STORAGE SO BE AWARE! DOWNLOAD THOSE FROM DISCORD ITSELF! SUPPORT FOR UNNECESSCARY EXTENSIONS IS NOT THERE!*/
-      SaveAttachments: false, // Saves image (Videos may come soon) attachments in channel
-      SaveExternalEmojis: false, // Saves all external emojis in channel except component em
+    FileConfig: {
+      SaveAttachments: false, // Saves image attachments in channel
+      SaveExternalEmojis: false, // Saves all external emojis in channel
       SaveStickers: false // Saves all stickers send in channnel
     },
     callbacks: {
@@ -198,9 +198,6 @@ const attachment = await discordTranscripts.generateFromMessages(messages, chann
 Give it a star! ⭐ 
 
 ## More features coming soon:
+- Advanced Custom CSS
 - More languages
-- Code blocks for Attachments (Html, JC, etc) 
-
-## Bug Fixes
-- Audio did not show a player
-- Improvements
+- File Saving System

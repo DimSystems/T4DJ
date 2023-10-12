@@ -22,6 +22,8 @@ function getAttachmentType(attachment: Attachment): AttachmentTypes {
   return 'file';
 }
 
+let AttachTypeArray = ['audio', 'video', 'image'];
+
 export async function renderAttachment(attachment: Attachment, context: RenderMessageContext) {
   let url = attachment.url;
   const name = attachment.name;
@@ -30,24 +32,42 @@ export async function renderAttachment(attachment: Attachment, context: RenderMe
 
   const type = getAttachmentType(attachment);
 
-  // if the attachment is an image, download it to a data url
-  if (context.FileConfig?.SaveAttachments && type === 'image') {
-    const downloaded = await downloadImageToDataURL(url);
+  // // if the attachment is an image, download it to a data url
+  // if (context.FileConfig?.SaveAttachments && type === 'image') {
+  //   const downloaded = await downloadImageToDataURL(url);
+  //   if (downloaded) {
+  //     url = downloaded;
+  //   }
+  // }
+
+  if(context.FileConfig?.SaveAttachments && AttachTypeArray.includes(type)){
+      const downloaded = await downloadImageToDataURL(url);
     if (downloaded) {
       url = downloaded;
     }
   }
+  
 
-  return (
-    <DiscordAttachment
-      type={type}
-      size={formatBytes(attachment.size)}
-      key={attachment.id}
-      slot="attachment"
-      url={url}
-      alt={name ?? undefined}
-      width={width ?? undefined}
-      height={height ?? undefined}
-    />
-  );
+
+  if(type === "audio"){
+   return (
+    <audio controls>
+        <source src={url}></source>
+    </audio>
+   )
+  } else {
+    return (
+      <DiscordAttachment
+        type={type}
+        size={formatBytes(attachment.size)}
+        key={attachment.id}
+        slot="attachment"
+        url={url}
+        alt={name ?? undefined}
+        width={width ?? undefined}
+        height={height ?? undefined}
+      />
+    );
+  }
+  
 }
