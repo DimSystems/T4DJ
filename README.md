@@ -1,10 +1,16 @@
-# `Transcripts 4 Discord.JS` 
+# `Transcripts For Discord.JS` 
 
 [![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/aG6fENXT)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/DimSystems/T4DJ)
 ![GitHub Repo stars](https://img.shields.io/github/stars/DimSystems/T4DJ?style=social)
 
 Transcripts 4 Discord.JS is a highly modified version of the Discord-Html-Transcripts by derock with translations, more customaization and more. MOST components are originally made by derock and please give kudos to him
+
+```sh
+
+npm i t4discordjs@latest
+
+```
 
 This module can format the following:
 - Languages (English & Brazilian [Languange information is below])
@@ -63,8 +69,8 @@ Behind the scenes, this package uses React SSR to generate a static site.
 ### Example usage using the built in message fetcher.
 
 ```js
-const discordTranscripts = require('T4DJ');
-// or (if using typescript) import * as discordTranscripts from 'T4DJ';
+const discordTranscripts = require('t4discordjs');
+// or (if using typescript) import * as discordTranscripts from 't4dj';
 
 const channel = message.channel; // or however you get your TextChannel
 
@@ -79,7 +85,7 @@ channel.send({
 ### Or if you prefer, you can pass in your own messages.
 
 ```js
-const discordTranscripts = require('@dimsystems/t4dj');
+const discordTranscripts = require('t4discordjs');
 // or (if using typescript) import * as discordTranscripts from '@dimsystems/t4dj';
 
 const messages = someWayToGetMessages(); // Must be Collection<string, Message> or Message[]
