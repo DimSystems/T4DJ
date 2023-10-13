@@ -22,7 +22,11 @@ const ButtonStyleMapping = {
 
 export async function renderComponent(component: MessageActionRowComponent, id: number, context2: RenderMessageContext) {
   if (component.type === ComponentType.Button) {
-let emojiURL = `${await parseComponentEmoji(component.emoji!, context2)}`
+
+
+   let emojiURL = `${component.emoji ? await parseComponentEmoji(component.emoji!, context2) : ""}`
+
+
     return (
       <DiscordButton
         key={id}
@@ -36,13 +40,16 @@ let emojiURL = `${await parseComponentEmoji(component.emoji!, context2)}`
   }
 
   return undefined;
+   
+
 }
 
 
 
 export async function parseComponentEmoji(Emoji: Emoji | APIMessageComponentEmoji, context2: RenderMessageContext) {
+
   if (Emoji.id) {
-    if(context2.FileConfig?.SaveExternalEmojis){
+    if(context2.FileConfig?.SaveExternalEmojis && context2.FileConfig.ExternalEmojiOptions?.SaveComponentEmojis){
       const response = await request(`https://cdn.discordapp.com/emojis/${Emoji.id}.${Emoji.animated ? 'gif' : 'png'}`);
   
       const dataURL = await response.body
@@ -55,7 +62,7 @@ export async function parseComponentEmoji(Emoji: Emoji | APIMessageComponentEmoj
         })
         .catch((err) => {
           if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-            console.error(`[discord-html-transcripts] Failed to download emoji for transcript: `, err);
+            console.error(`[T4DJ | Critical Error] Failed to download component emoji for transcript: `, err);
           }
     
           return null;

@@ -12,7 +12,7 @@ export default async function renderReaction(message: Message, context2: RenderM
   if(message.reactions.cache.size === 0) return null;
 return (
 <>
-  {await Promise.all(message.reactions.cache.map((reactions, id) => renderReaction2(message, reactions, context2, id)))}
+  {await Promise.all(message.reactions.cache.map((reactions) => renderReaction2(reactions, context2)))}
   </>
     
 )
@@ -20,15 +20,14 @@ return (
 
 }
 
-export async function renderReaction2(message: Message, reaction: MessageReaction, context: RenderMessageContext, id: any){
+export async function renderReaction2(reaction: MessageReaction, context: RenderMessageContext){
 
   let DataURL = `${await parseReactionEmoji(reaction.emoji, context)}`
 
 
 return (
-  <DiscordReactions slot="reactions">     
+  <DiscordReactions  slot="reactions">     
     <DiscordReaction
-      key={`${message.id}${id}`}
       name={reaction.emoji.name!}
       emoji={DataURL}
       count={reaction.count}
@@ -39,7 +38,7 @@ return (
 
 export async function parseReactionEmoji(Emoji: Emoji | APIMessageComponentEmoji, context2: RenderMessageContext) {
   if (Emoji.id) {
-    if(context2.FileConfig?.SaveExternalEmojis){
+    if(context2.FileConfig?.SaveExternalEmojis, context2){
       const response = await request(`https://cdn.discordapp.com/emojis/${Emoji.id}.${Emoji.animated ? 'gif' : 'png'}`);
   
       const dataURL = await response.body
@@ -52,7 +51,7 @@ export async function parseReactionEmoji(Emoji: Emoji | APIMessageComponentEmoji
         })
         .catch((err) => {
           if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-            console.error(`[discord-html-transcripts] Failed to download image for transcript: `, err);
+            console.error(`[T4DJ | Critical Error] Failed to download reaction emoji for transcript: `, err);
           }
     
           return null;

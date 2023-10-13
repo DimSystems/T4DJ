@@ -1,9 +1,10 @@
-import { DiscordAttachment, DiscordAttachments } from '@derockdev/discord-components-react';
+import { DiscordAttachment, DiscordAttachments, DiscordCodeBlock } from '@derockdev/discord-components-react';
 import React from 'react';
 import type { Attachment, Message } from 'discord.js';
 import type { RenderMessageContext } from '..';
 import type { AttachmentTypes } from '../../types';
-import { downloadImageToDataURL, formatBytes } from '../../utils/utils';
+import { downloadFileAndGetData, downloadImageToDataURL, formatBytes } from '../../utils/utils';
+import LanguageJson from "./Language.json"
 
 export default async function renderAttachments(message: Message, context: RenderMessageContext) {
   if (message.attachments.size === 0) return null;
@@ -24,6 +25,20 @@ function getAttachmentType(attachment: Attachment): AttachmentTypes {
 
 let AttachTypeArray = ['audio', 'video', 'image'];
 
+
+function getAttachmentExtension(attachment: Attachment) {
+
+   let TypeArray = [""] // ['.js', '.py', '.cs', '.ts', '.jsx', '.tsx', '.readme', '.html', '.c', '.', '.abap',]
+  LanguageJson.forEach((Lan) => {
+      Lan.extensions?.forEach((Lane) => {
+        TypeArray.push(Lane);
+      })
+  })
+  const type = attachment.name?.substring(attachment.name.indexOf('.'), 1000) ?? 'unknown';
+  if(TypeArray.includes(type)) return type;
+  return 'file';
+}
+
 export async function renderAttachment(attachment: Attachment, context: RenderMessageContext) {
   let url = attachment.url;
   const name = attachment.name;
@@ -31,7 +46,8 @@ export async function renderAttachment(attachment: Attachment, context: RenderMe
   const height = attachment.height;
 
   const type = getAttachmentType(attachment);
-
+  const extension = getAttachmentExtension(attachment);
+  
   // // if the attachment is an image, download it to a data url
   // if (context.FileConfig?.SaveAttachments && type === 'image') {
   //   const downloaded = await downloadImageToDataURL(url);
@@ -48,7 +64,25 @@ export async function renderAttachment(attachment: Attachment, context: RenderMe
   }
   
 
+ if(context.FileConfig?.AttachmentOptions?.FetchAttachmentFiles){
+  if(extension !== "file"){
+    let data = ""
+    const downloadCheck = await downloadFileAndGetData(url);
+    if(downloadCheck){
+      data = downloadCheck
+    }
 
+
+    return (
+      <><DiscordCodeBlock language={extension.replace(".", '')} code={data} />
+           <h3>{attachment.name}</h3>
+      <h3>{formatBytes(attachment.size)}</h3>
+      <a href={attachment.url}><i>Download Link</i> </a>
+      </>
+   
+    )
+  }
+ }
   if(type === "audio"){
    return (
     <audio controls>

@@ -18,6 +18,14 @@ client.on('ready', async () => {
 
   const attachment = await createTranscript(channel, {
    Language: "English",
+   FileConfig: {
+    SaveAttachments: true,
+    SaveStickers: true,
+    SaveExternalEmojis: true,
+    AttachmentOptions: {
+      FetchAttachmentFiles: true
+    }
+   }
   });
 
   await channel.send({

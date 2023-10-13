@@ -10,6 +10,14 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { renderToString } from '@derockdev/discord-components-core/hydrate';
 
+import { fromMs } from "ms-typescript";
+import { stdout } from "process"
+import { yellow, green } from 'console-log-colors';
+
+
+
+
+
 const AvailableLanguages = [
 "ENGLISH", "BRAZILIAN", "DUTCH"
 ] 
@@ -43,6 +51,7 @@ try {
 export type RenderMessageContext = {
   messages: Message[];
   channel: Channel;
+  DisableTranscriptLogs: boolean,
   callbacks: {
     resolveChannel: (channelId: string) => Awaitable<Channel | null>;
     resolveUser: (userId: string) => Awaitable<User | null>;
@@ -52,6 +61,14 @@ export type RenderMessageContext = {
     SaveAttachments?: boolean,
     SaveExternalEmojis?: boolean,
     SaveStickers?: boolean
+    AttachmentOptions?: {
+      FetchAttachmentFiles: boolean,
+  },
+  ExternalEmojiOptions?: {
+      SaveReactionEmojis?: boolean,
+      SaveComponentEmojis?: boolean,
+      SaveMessageEmojis?: boolean,
+  }, 
   },
   customCSS: {
     GlobalCSS?: {
@@ -105,6 +122,41 @@ export type RenderMessageContext = {
 };
 
 export default async function renderMessages({ messages, channel, callbacks, ...options }: RenderMessageContext) {
+
+
+
+
+function loaderSystem(text: string) {
+  if(!options.DisableTranscriptLogs){
+    const characters = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+  const cursorEsc = {
+      hide: '\u001B[?25l',
+      show: '\u001B[?25h',
+  }
+  stdout.write(cursorEsc.hide)
+
+  let i = 0;
+ 
+  const timer = setInterval(function () {
+      stdout.write("\r" + characters[i++] + " " + text);
+      i = i >= characters.length ? 0 : i;
+  }, 150);
+
+  return () => {
+      clearInterval(timer)
+      stdout.write("\r")
+      stdout.write(cursorEsc.show)
+  console.clear()
+  }
+  }
+  
+}
+
+
+  let StartTimer = Date.now()
+
+  let stopSpinner = loaderSystem(yellow(`Transcript creation is in progress`));  
+
   
   // Languages - Ill move this to a different file soon
   if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "ENGLISH"){
@@ -1534,6 +1586,22 @@ discord-underlined {
 
     return result.html;
   }
+
+
+
+
+
+if(!options.DisableTranscriptLogs){
+
+  stopSpinner!()
+  let EndTimer = Date.now()
+  let TimeTaken = EndTimer - StartTimer;
+
+
+  console.log(green("Success! Your transcript is ready! It took "+ fromMs(TimeTaken, { long: true })));
+
+}
+ 
 
   return markup;
 }

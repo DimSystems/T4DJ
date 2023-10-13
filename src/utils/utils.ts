@@ -14,6 +14,7 @@ export function formatBytes(bytes: number, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+
 export function parseDiscordEmoji(emoji: Emoji | APIMessageComponentEmoji) {
   if (emoji.id) {
     return `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}`;
@@ -41,7 +42,7 @@ export async function downloadImageToDataURL(url: string): Promise<string | null
     })
     .catch((err) => {
       if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-        console.error(`[discord-html-transcripts] Failed to download Attachments for transcript: `, err);
+        console.error(`[T4DJ | Critical Error] Failed to download Viewing attachments for transcript: `, err);
       }
 
       return null;
@@ -49,3 +50,37 @@ export async function downloadImageToDataURL(url: string): Promise<string | null
 
   return dataURL;
 }
+ 
+
+export async function downloadFileAndGetData(url: string): Promise<string | null> {
+  const response = await request(url);
+
+  const dataURL = await response.body
+    .text()
+    .then((res) => {
+      const data = res.substring(0, 1000)
+      function byteSize(str: string){
+        let Bytes = new Blob([str]).size;
+        return Bytes
+      } 
+
+      const data2 = res.substring(1000, 999999999999999);
+      let remainingBytes = byteSize(data2);
+
+      if(data.length === 1000){
+        return `${data} (${formatBytes(remainingBytes)} left)`
+      }
+
+      return `${data}`;
+    })
+    .catch((err) => {
+      if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
+        console.error(`[T4DJ | Critical Error] Failed to download Code Based Data for transcript: `, err);
+      }
+
+      return null;
+    });
+
+  return dataURL;
+}
+ 

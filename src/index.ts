@@ -7,6 +7,7 @@ import {
   type ObjectType,
 } from './types';
 
+
 // version check
 const versionPrefix = version.split('.')[0];
 
@@ -38,11 +39,19 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
   const html = await renderMessages({
     messages: transformedMessages,
     channel,
+    DisableTranscriptLogs: options.DisableTranscriptLogs ?? false,
     FileConfig: {
       SaveAttachments: options.FileConfig?.SaveAttachments ?? false,
       SaveExternalEmojis: options.FileConfig?.SaveExternalEmojis ?? false,
       SaveStickers: options.FileConfig?.SaveStickers ?? false ,
-
+      AttachmentOptions: {
+          FetchAttachmentFiles: options.FileConfig?.AttachmentOptions?.FetchAttachmentFiles ?? true
+      },
+      ExternalEmojiOptions: {
+          SaveReactionEmojis: options.FileConfig?.ExternalEmojiOptions?.SaveReactionEmojis ?? true,
+          SaveComponentEmojis: options.FileConfig?.ExternalEmojiOptions?.SaveComponentEmojis ?? true,
+          SaveMessageEmojis: options.FileConfig?.ExternalEmojiOptions?.SaveMessageEmojis ?? true
+      },
       ...(options.FileConfig ?? {}),
     },
     // saveImages: options.saveImages ?? false,
@@ -138,6 +147,8 @@ export async function createTranscript<T extends ExportReturnType = ExportReturn
     // @ts-expect-error(2339): run-time check
     throw new TypeError(`Provided channel must be text-based, received ${channel.type}`);
   }
+
+
 
   // fetch messages
   let allMessages: Message[] = [];

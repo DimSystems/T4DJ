@@ -28,11 +28,13 @@ export default async function renderMessage(message: Message, context: RenderMes
   let dscmsg1 = ""
   let dscmsg2 = ""
   let dscmsg3 = ""
+  // let dscmsg4 = ""
 
   if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "ENGLISH"){
     dscmsg1 = "Message"
     dscmsg2 = "View Thread"
     dscmsg3 = "Thread messages not saved."
+    // dscmsg4 = "This <u>interaction</u> failed to respond!"
   } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "BRAZILIAN") {
     dscmsg1 = "Mensage"
     dscmsg2 = "Ver Thread"
@@ -41,6 +43,7 @@ export default async function renderMessage(message: Message, context: RenderMes
     dscmsg1 = "Bericht"
     dscmsg2 = "Bekijk Thread"
     dscmsg3 = "Thread bericht niet opgeslagen."
+    // dscmsg4 = "Deze <u>interactie</u> is mislukt!"
   }
 
   return (
@@ -66,10 +69,9 @@ export default async function renderMessage(message: Message, context: RenderMes
       {await renderReaction(message, context)}
 
        {/* Interaction Failure Check */}
-       { message.interaction && message.content.length == 0 && message.embeds.length == 0 && (
+       { message.interaction && message.content.length == 0 && message.embeds.length == 0 && message.components.length == 0 && message.attachments.size == 0 && (
        <>
-       <svg aria-hidden="true" role="img" width="32" height="32" viewBox="0 0 20 20" fill='#ed4550'><path d="M10 0C4.486 0 0 4.486 0 10C0 15.515 4.486 20 10 20C15.514 20 20 15.515 20 10C20 4.486 15.514 0 10 0ZM9 4H11V11H9V4ZM10 15.25C9.31 15.25 8.75 14.691 8.75 14C8.75 13.31 9.31 12.75 10 12.75C10.69 12.75 11.25 13.31 11.25 14C11.25 14.691 10.69 15.25 10 15.25Z"></path></svg>
-       <h4 style={ { color: "#ed4550" } }>This interaction failed to respond! </h4>
+       <h4 style={ { color: "#ed4550" } }>This <u>interaction</u> failed to respond! </h4>
        </> 
       )}
 

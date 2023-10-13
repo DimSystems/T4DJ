@@ -2,7 +2,7 @@ import type { AttachmentBuilder } from 'discord.js';
 import type { RenderMessageContext } from './generator';
 
 export type AttachmentTypes = 'audio' | 'video' | 'image' | 'file';
-
+export type AttachmentCodeBlockTypes = '.js' | '.py' | '.cs' | '.ts' | '.jsx'| '.tsx' | '.md' | '.html' | 'file'
 export enum ExportReturnType {
   Buffer = 'buffer',
   String = 'string',
@@ -50,11 +50,18 @@ export type GenerateFromMessagesOptions<T extends ExportReturnType> = Partial<{
    * @default true
    */
   poweredBy: boolean;
+ /**
+   * Whether to disable the logs.
+   * Default = true
+   * @default false
+   */
+
+  DisableTranscriptLogs: boolean;
   /**
    * Whether to use the New CSS or old, although if you are going for a realistic look to discord, use old.
    * Default = true
    * Note: In order to use the custom css, you will need to enable this.
-   * @default true
+   * @default false
    */
   useNewCSS: boolean;
   /**

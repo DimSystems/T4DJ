@@ -7,7 +7,6 @@ import type { RenderMessageContext, } from '..';
 import { request } from 'undici';
 import twemoji from 'twemoji';
 
-
 export enum RenderType {
   EMBED,
   REPLY,
@@ -39,9 +38,26 @@ export default async function renderEmoji(Emoji: Emoji | APIMessageComponentEmoj
 
 }
 
+
 export async function parseEmoji(Emoji: Emoji | APIMessageComponentEmoji, context2: RenderMessageContext){
+
+
+//   const AvailableLanguages = [
+//     "ENGLISH", "BRAZILIAN", "DUTCH"
+//   ]
+
+// let errorMessage = "";
+// if(AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "ENGLISH"){
+//   errorMessage = "[T4DJ | Critical Error] Failed to download emoji for transcript: ";
+// } else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "DUTCH") && context2.Language?.toUpperCase() == "DUTCH"){
+//   errorMessage = "[T4DJ | Fout melding] Kan emoji voor transcriptie niet downloaden: "
+// } else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "BRAZILIAN") && context2.Language?.toUpperCase() == "BRAZILIAN"){
+// errorMessage = ""
+// }
+
+
  if (Emoji.id) {
-  if(context2.FileConfig?.SaveExternalEmojis){
+  if(context2.FileConfig?.SaveExternalEmojis && context2.FileConfig.ExternalEmojiOptions?.SaveMessageEmojis){
     const response = await request(`https://cdn.discordapp.com/emojis/${Emoji.id}.${Emoji.animated ? 'gif' : 'png'}`);
 
     const dataURL = await response.body
@@ -54,7 +70,7 @@ export async function parseEmoji(Emoji: Emoji | APIMessageComponentEmoji, contex
       })
       .catch((err) => {
         if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-          console.error(`[discord-html-transcripts] Failed to download image for transcript: `, err);
+          console.error(`[T4DJ | Critical Error] Failed to download emoji for transcript: `, err);
         }
   
         return null;

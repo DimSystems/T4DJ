@@ -30,7 +30,7 @@ if(DataURL){
 }  
 
 return (
-<img src={url} width={160} height={160}/>
+<img src={url} key={sticker.id} width={160} height={160}/>
 )    
 
 

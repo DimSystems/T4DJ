@@ -119,10 +119,19 @@ const attachment = await discordTranscripts.createTranscript(channel, {
       resolveUser: (userId: string) => Awaitable<User | null>,
       resolveRole: (roleId: string) => Awaitable<Role | null>
     },
+      DisableTranscriptLogs: false, // Disable the logs when a transcript is being initalized.
     FileConfig: { /* NOTICE: THIS IS SAVING IMAGES OR MAYBE VIDEOS NOT .ZIPS OR OTHER UNNECESSCARY EXTENSIONS! THIS WILL TAKE A HUGE HIT ON STORAGE SO BE AWARE! DOWNLOAD THOSE FROM DISCORD ITSELF! SUPPORT FOR UNNECESSCARY EXTENSIONS IS NOT THERE!*/
       SaveAttachments: false, // Saves image (Videos may come soon) attachments in channel
       SaveExternalEmojis: false, // Saves all external emojis in channel except component em
       SaveStickers: false // Saves all stickers send in channnel
+        AttachmentOptions: {
+          FetchAttachmentFiles: true // Make a code block for coding file extensions (Like .html)
+      },
+      ExternalEmojiOptions: {
+          SaveReactionEmojis: true, // Self explainatory
+          SaveComponentEmojis: true, // Self explainatory
+          SaveMessageEmojis: true // Self explainatory
+      },
     },
     callbacks: {
       resolveChannel: async (id) => channel.client.channels.fetch(id).catch(() => null),
@@ -205,8 +214,6 @@ Give it a star! ⭐
 
 ## More features coming soon:
 - More languages
-- Code blocks for Attachments (Html, JC, etc) 
 
 ## Bug Fixes
-- Audio did not show a player
 - Improvements
