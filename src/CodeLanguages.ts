@@ -1,4 +1,4 @@
-[
+export let CodeLanguages = [
   {
      "name":"ABAP",
      "type":"programming",

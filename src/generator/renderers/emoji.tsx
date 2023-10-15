@@ -6,7 +6,7 @@ import type { RenderMessageContext, } from '..';
 // import { downloadImageToDataURL, formatBytes } from '../../utils/utils';
 import { request } from 'undici';
 import twemoji from 'twemoji';
-
+import { Languages } from '../../Languages';
 export enum RenderType {
   EMBED,
   REPLY,
@@ -42,18 +42,18 @@ export default async function renderEmoji(Emoji: Emoji | APIMessageComponentEmoj
 export async function parseEmoji(Emoji: Emoji | APIMessageComponentEmoji, context2: RenderMessageContext){
 
 
-//   const AvailableLanguages = [
-//     "ENGLISH", "BRAZILIAN", "DUTCH"
-//   ]
+  const AvailableLanguages = Languages.TotalLanguages;
 
-// let errorMessage = "";
-// if(AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "ENGLISH"){
-//   errorMessage = "[T4DJ | Critical Error] Failed to download emoji for transcript: ";
-// } else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "DUTCH") && context2.Language?.toUpperCase() == "DUTCH"){
-//   errorMessage = "[T4DJ | Fout melding] Kan emoji voor transcriptie niet downloaden: "
-// } else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "BRAZILIAN") && context2.Language?.toUpperCase() == "BRAZILIAN"){
-// errorMessage = ""
-// }
+let errorMessage = "";
+if(AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "ENGLISH"){
+  errorMessage = Languages.LanguageSectionEmoji.English.errorMessage;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "DUTCH"){
+  errorMessage = Languages.LanguageSectionEmoji.Dutch.errorMessage;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "BRAZILIAN"){
+  errorMessage = Languages.LanguageSectionEmoji.Brazilian.errorMessage;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "FRENCH"){
+  errorMessage = Languages.LanguageSectionEmoji.French.errorMessage;
+}
 
 
  if (Emoji.id) {
@@ -70,7 +70,7 @@ export async function parseEmoji(Emoji: Emoji | APIMessageComponentEmoji, contex
       })
       .catch((err) => {
         if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-          console.error(`[T4DJ | Critical Error] Failed to download emoji for transcript: `, err);
+          console.error(`${errorMessage}`, err);
         }
   
         return null;

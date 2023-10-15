@@ -7,6 +7,7 @@ import {
   type ObjectType,
 } from './types';
 
+process.env.NODE_NO_WARNINGS = 'buffer.File';
 
 // version check
 const versionPrefix = version.split('.')[0];
@@ -43,7 +44,8 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
     FileConfig: {
       SaveAttachments: options.FileConfig?.SaveAttachments ?? false,
       SaveExternalEmojis: options.FileConfig?.SaveExternalEmojis ?? false,
-      SaveStickers: options.FileConfig?.SaveStickers ?? false ,
+      SaveStickers: options.FileConfig?.SaveStickers ?? false,
+      SaveAvaters: options.FileConfig?.SaveAvaters ?? false,
       AttachmentOptions: {
           FetchAttachmentFiles: options.FileConfig?.AttachmentOptions?.FetchAttachmentFiles ?? true
       },
@@ -110,7 +112,7 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
     },
     poweredBy: options.poweredBy ?? true,
     useNewCSS: options.useNewCSS ?? true,
-    footerText: options.footerText ?? 'Exported {number} message{s}.',
+    footerText: options.footerText ?? '{expword} {number} {msgword}{s} & {exporttime}.',
     headerText: options.headerText ?? '',
     Language: options.Language ?? 'English',
     headerColor: options.headerColor ?? 'green',
@@ -142,6 +144,8 @@ export async function createTranscript<T extends ExportReturnType = ExportReturn
   channel: TextBasedChannel,
   options: CreateTranscriptOptions<T> = {}
 ): Promise<ObjectType<T>> {
+
+  if(channel === null) throw new TypeError(`Provided channel is not a discord channel! It is null`);
   // validate type
   if (!channel.isTextBased()) {
     // @ts-expect-error(2339): run-time check

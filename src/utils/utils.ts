@@ -1,6 +1,8 @@
 import type { APIMessageComponentEmoji, Emoji } from 'discord.js';
 import { request } from 'undici';
 import twemoji from 'twemoji';
+import { RenderMessageContext } from '../generator';
+import { Languages } from '../Languages';
 
 export function formatBytes(bytes: number, decimals = 2) {
   if (bytes === 0) return '0 Bytes';
@@ -29,7 +31,22 @@ export function parseDiscordEmoji(emoji: Emoji | APIMessageComponentEmoji) {
   return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${codepoints}.svg`;
 }
 
-export async function downloadImageToDataURL(url: string): Promise<string | null> {
+export async function downloadImageToDataURL(url: string, context2: RenderMessageContext): Promise<string | null> {
+
+
+  const AvailableLanguages = Languages.TotalLanguages;
+
+let errorMessage = "";
+if(AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "ENGLISH"){
+  errorMessage = Languages.LanguageSectionUtil.English.errorMessage1;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "DUTCH"){
+  errorMessage = Languages.LanguageSectionUtil.Dutch.errorMessage1;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "BRAZILIAN"){
+  errorMessage = Languages.LanguageSectionUtil.Brazilian.errorMessage1;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "FRENCH"){
+  errorMessage = Languages.LanguageSectionUtil.French.errorMessage1;
+}
+
   const response = await request(url);
 
   const dataURL = await response.body
@@ -42,7 +59,7 @@ export async function downloadImageToDataURL(url: string): Promise<string | null
     })
     .catch((err) => {
       if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-        console.error(`[T4DJ | Critical Error] Failed to download Viewing attachments for transcript: `, err);
+        console.error(`${errorMessage}`, err);
       }
 
       return null;
@@ -52,7 +69,22 @@ export async function downloadImageToDataURL(url: string): Promise<string | null
 }
  
 
-export async function downloadFileAndGetData(url: string): Promise<string | null> {
+export async function downloadFileAndGetData(url: string, context2: RenderMessageContext): Promise<string | null> {
+
+
+  const AvailableLanguages = Languages.TotalLanguages;
+
+let errorMessage = "";
+if(AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "ENGLISH"){
+  errorMessage = Languages.LanguageSectionUtil.English.errorMessage0;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "DUTCH"){
+  errorMessage = Languages.LanguageSectionUtil.Dutch.errorMessage0;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "BRAZILIAN"){
+  errorMessage = Languages.LanguageSectionUtil.Brazilian.errorMessage0;
+}  else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "FRENCH"){
+  errorMessage = Languages.LanguageSectionUtil.French.errorMessage0;
+}
+
   const response = await request(url);
 
   const dataURL = await response.body
@@ -75,7 +107,7 @@ export async function downloadFileAndGetData(url: string): Promise<string | null
     })
     .catch((err) => {
       if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-        console.error(`[T4DJ | Critical Error] Failed to download Code Based Data for transcript: `, err);
+        console.error(`${errorMessage}`, err);
       }
 
       return null;

@@ -83,6 +83,7 @@ export type GenerateFromMessagesOptions<T extends ExportReturnType> = Partial<{
    * English - Provided by derock
    * Brazilian - Provided by oreczx 
    * Dutch - Provided by p3rcent
+   * French - provided by LogicNovaX
    * @default "English"
    */
   Language: string;

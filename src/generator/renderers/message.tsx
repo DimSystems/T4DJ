@@ -16,11 +16,11 @@ import renderReply from './reply';
 import renderSticker from './sticker';
 import renderSystemMessage from './systemMessage';
 import renderReaction from './reaction';
+import { Languages } from '../../Languages';
 
 
-const AvailableLanguages = [
-  "ENGLISH", "BRAZILIAN", "DUTCH"
-]
+const AvailableLanguages = Languages.TotalLanguages
+
 export default async function renderMessage(message: Message, context: RenderMessageContext) {
   if (message.system) return renderSystemMessage(message, context);
 
@@ -28,22 +28,28 @@ export default async function renderMessage(message: Message, context: RenderMes
   let dscmsg1 = ""
   let dscmsg2 = ""
   let dscmsg3 = ""
-  // let dscmsg4 = ""
+  let dscmsg4 = ""
 
   if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "ENGLISH"){
-    dscmsg1 = "Message"
-    dscmsg2 = "View Thread"
-    dscmsg3 = "Thread messages not saved."
-    // dscmsg4 = "This <u>interaction</u> failed to respond!"
+    dscmsg1 = Languages.LanguageSectionMessage.English.dscmsg1
+    dscmsg2 = Languages.LanguageSectionMessage.English.dscmsg2
+    dscmsg3 = Languages.LanguageSectionMessage.English.dscmsg3
+    dscmsg4 = Languages.LanguageSectionMessage.English.dscmsg4
   } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "BRAZILIAN") {
-    dscmsg1 = "Mensage"
-    dscmsg2 = "Ver Thread"
-    dscmsg3 = " do Thread não foram salvas."
+    dscmsg1 = Languages.LanguageSectionMessage.Brazilian.dscmsg1
+    dscmsg2 = Languages.LanguageSectionMessage.Brazilian.dscmsg2
+    dscmsg3 = Languages.LanguageSectionMessage.Brazilian.dscmsg3
+    dscmsg4 = Languages.LanguageSectionMessage.Brazilian.dscmsg4
   } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "DUTCH") {
-    dscmsg1 = "Bericht"
-    dscmsg2 = "Bekijk Thread"
-    dscmsg3 = "Thread bericht niet opgeslagen."
-    // dscmsg4 = "Deze <u>interactie</u> is mislukt!"
+    dscmsg1 = Languages.LanguageSectionMessage.Dutch.dscmsg1
+    dscmsg2 = Languages.LanguageSectionMessage.Dutch.dscmsg2
+    dscmsg3 = Languages.LanguageSectionMessage.Dutch.dscmsg3
+    dscmsg4 = Languages.LanguageSectionMessage.Dutch.dscmsg4
+  } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "FRENCH") {
+    dscmsg1 = Languages.LanguageSectionMessage.French.dscmsg1
+    dscmsg2 = Languages.LanguageSectionMessage.French.dscmsg2
+    dscmsg3 = Languages.LanguageSectionMessage.French.dscmsg3
+    dscmsg4 = Languages.LanguageSectionMessage.French.dscmsg4
   }
 
   return (
@@ -71,7 +77,7 @@ export default async function renderMessage(message: Message, context: RenderMes
        {/* Interaction Failure Check */}
        { message.interaction && message.content.length == 0 && message.embeds.length == 0 && message.components.length == 0 && message.attachments.size == 0 && (
        <>
-       <h4 style={ { color: "#ed4550" } }>This <u>interaction</u> failed to respond! </h4>
+       <h4 style={ { color: "#ed4550" } }>{dscmsg4}</h4>
        </> 
       )}
 

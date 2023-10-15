@@ -4,7 +4,8 @@ import type { Attachment, Message } from 'discord.js';
 import type { RenderMessageContext } from '..';
 import type { AttachmentTypes } from '../../types';
 import { downloadFileAndGetData, downloadImageToDataURL, formatBytes } from '../../utils/utils';
-import LanguageJson from "./Language.json"
+import { CodeLanguages } from '../../CodeLanguages';
+let LanguageJson = CodeLanguages;
 
 export default async function renderAttachments(message: Message, context: RenderMessageContext) {
   if (message.attachments.size === 0) return null;
@@ -47,17 +48,10 @@ export async function renderAttachment(attachment: Attachment, context: RenderMe
 
   const type = getAttachmentType(attachment);
   const extension = getAttachmentExtension(attachment);
-  
-  // // if the attachment is an image, download it to a data url
-  // if (context.FileConfig?.SaveAttachments && type === 'image') {
-  //   const downloaded = await downloadImageToDataURL(url);
-  //   if (downloaded) {
-  //     url = downloaded;
-  //   }
-  // }
+
 
   if(context.FileConfig?.SaveAttachments && AttachTypeArray.includes(type)){
-      const downloaded = await downloadImageToDataURL(url);
+      const downloaded = await downloadImageToDataURL(url, context);
     if (downloaded) {
       url = downloaded;
     }
@@ -67,7 +61,7 @@ export async function renderAttachment(attachment: Attachment, context: RenderMe
  if(context.FileConfig?.AttachmentOptions?.FetchAttachmentFiles){
   if(extension !== "file"){
     let data = ""
-    const downloadCheck = await downloadFileAndGetData(url);
+    const downloadCheck = await downloadFileAndGetData(url, context);
     if(downloadCheck){
       data = downloadCheck
     }

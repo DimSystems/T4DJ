@@ -20,7 +20,7 @@ export async function renderStickers1(sticker: Sticker, context: RenderMessageCo
 let url = '';
 
   if(context.FileConfig?.SaveStickers){
-    let DataURL = await downloadImageToDataURL(sticker.url);
+    let DataURL = await downloadImageToDataURL(sticker.url, context);
 if(DataURL){
   url = DataURL;
 }

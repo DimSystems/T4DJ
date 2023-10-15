@@ -12,15 +12,13 @@ import { renderToString } from '@derockdev/discord-components-core/hydrate';
 
 import { fromMs } from "ms-typescript";
 import { stdout } from "process"
-import { yellow, green } from 'console-log-colors';
+import { yellow, green, yellowBright } from 'console-log-colors';
+import { Languages } from '../Languages';
 
 
 
 
-
-const AvailableLanguages = [
-"ENGLISH", "BRAZILIAN", "DUTCH"
-] 
+const AvailableLanguages = Languages.TotalLanguages;
 // Check if the language is correct
  // Define the variables and then add content
  let TSCREATEDATE = "" 
@@ -35,6 +33,9 @@ const AvailableLanguages = [
  let Footer0 = ""
  let Footer1 = ""
  let Footer2 = ""
+ let LogStart0 = ""
+ let LogEnd0 = ""
+ let LogTimeWord = ""
 
  
 
@@ -60,7 +61,8 @@ export type RenderMessageContext = {
   FileConfig?: {
     SaveAttachments?: boolean,
     SaveExternalEmojis?: boolean,
-    SaveStickers?: boolean
+    SaveStickers?: boolean,
+    SaveAvaters?: boolean,
     AttachmentOptions?: {
       FetchAttachmentFiles: boolean,
   },
@@ -153,55 +155,84 @@ function loaderSystem(text: string) {
 }
 
 
-  let StartTimer = Date.now()
-
-  let stopSpinner = loaderSystem(yellow(`Transcript creation is in progress`));  
-
   
   // Languages - Ill move this to a different file soon
   if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "ENGLISH"){
-    TSCREATEDATE = "Transcript created on " 
-    TitleThread = "Thread channel in "
-    TitleDM = "Direct Messages"
-    TitleDM1 = "Unknown Recipient"
-    TitleVC = "Voice Text Channel for "
-    TitleCT = "Category Channel"
-    TitleCT1 = "Topic"
-    TitleCH = "The start of #"
-    TitleCH1 = "Unknown Channel"
-    Footer0 = "Exported"
-    Footer1 = "message"
-    Footer2 = "Powered by"
+    TSCREATEDATE = Languages.LanguageSectionPage.English.TSCREATEDATE
+    TitleThread = Languages.LanguageSectionPage.English.TitleThread
+    TitleDM = Languages.LanguageSectionPage.English.TitleDM
+    TitleDM1 = Languages.LanguageSectionPage.English.TitleDM1
+    TitleVC = Languages.LanguageSectionPage.English.TitleVC
+    TitleCT = Languages.LanguageSectionPage.English.TitleCT
+    TitleCT1 = Languages.LanguageSectionPage.English.TitleCT1
+    TitleCH = Languages.LanguageSectionPage.English.TitleCH
+    TitleCH1 = Languages.LanguageSectionPage.English.TitleCH1
+    Footer0 = Languages.LanguageSectionPage.English.Footer0
+    Footer1 = Languages.LanguageSectionPage.English.Footer1
+    Footer2 = Languages.LanguageSectionPage.English.Footer2
+    LogStart0 = Languages.LanguageSectionPage.English.LogsStart0
+    LogEnd0 = Languages.LanguageSectionPage.English.LogsEnd0
+    LogTimeWord = Languages.LanguageSectionPage.English.ExportTimeWord
 
   } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "BRAZILIAN"){
-    TSCREATEDATE = "Transcrição criada em " 
-    TitleThread = "Canal de rosca em "
-    TitleDM = "Mensagens diretas"
-    TitleDM1 = "Destinatário desconhecido"
-    TitleVC = "Canal de texto de voz para "
-    TitleCT = "Canal da categoria"
-    TitleCT1 = "Tópico"
-    TitleCH = "Isso é o começo do canal #"
-    TitleCH1 = "Canal desconhecido"
-    Footer0 = "Exportado"
-    Footer1 = "mensagem"
-    Footer2 = "Desenvolvido por"
+    TSCREATEDATE = Languages.LanguageSectionPage.Brazilian.TSCREATEDATE
+    TitleThread = Languages.LanguageSectionPage.Brazilian.TitleThread
+    TitleDM = Languages.LanguageSectionPage.Brazilian.TitleDM
+    TitleDM1 = Languages.LanguageSectionPage.Brazilian.TitleDM1
+    TitleVC = Languages.LanguageSectionPage.Brazilian.TitleVC
+    TitleCT = Languages.LanguageSectionPage.Brazilian.TitleCT
+    TitleCT1 = Languages.LanguageSectionPage.Brazilian.TitleCT1
+    TitleCH = Languages.LanguageSectionPage.Brazilian.TitleCH
+    TitleCH1 = Languages.LanguageSectionPage.Brazilian.TitleCH1
+    Footer0 = Languages.LanguageSectionPage.Brazilian.Footer0
+    Footer1 = Languages.LanguageSectionPage.Brazilian.Footer1
+    Footer2 = Languages.LanguageSectionPage.Brazilian.Footer2
+    LogStart0 = Languages.LanguageSectionPage.Brazilian.LogsStart0
+    LogEnd0 = Languages.LanguageSectionPage.Brazilian.LogsEnd0
+    LogTimeWord = Languages.LanguageSectionPage.Brazilian.ExportTimeWord
+    
   } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "DUTCH"){
-    TSCREATEDATE = "Transcriptie gemaakt op " 
-    TitleThread = "Thread kanaal in "
-    TitleDM = "Rechtstreekse berichten "
-    TitleDM1 = "Onbekende ontvanger"
-    TitleVC = "Spraaktekstkanaal voor "
-    TitleCT = "Categorie Kanaal"
-    TitleCT1 = "Onderwerp"
-    TitleCH = "De start van #"
-    TitleCH1 = "Onbekend kanaal"
-    Footer0 = "Geëxporteerd"
-    Footer1 = "bericht"
-    Footer2 = "Powered by"
+    TSCREATEDATE = Languages.LanguageSectionPage.Dutch.TSCREATEDATE
+    TitleThread = Languages.LanguageSectionPage.Dutch.TitleThread
+    TitleDM = Languages.LanguageSectionPage.Dutch.TitleDM
+    TitleDM1 = Languages.LanguageSectionPage.Dutch.TitleDM1
+    TitleVC = Languages.LanguageSectionPage.Dutch.TitleVC
+    TitleCT = Languages.LanguageSectionPage.Dutch.TitleCT
+    TitleCT1 = Languages.LanguageSectionPage.Dutch.TitleCT1
+    TitleCH = Languages.LanguageSectionPage.Dutch.TitleCH
+    TitleCH1 = Languages.LanguageSectionPage.Dutch.TitleCH1
+    Footer0 = Languages.LanguageSectionPage.Dutch.Footer0
+    Footer1 = Languages.LanguageSectionPage.Dutch.Footer1
+    Footer2 = Languages.LanguageSectionPage.Dutch.Footer2
+    LogStart0 = Languages.LanguageSectionPage.Dutch.LogsStart0
+    LogEnd0 = Languages.LanguageSectionPage.Dutch.LogsEnd0
+    LogTimeWord = Languages.LanguageSectionPage.Dutch.ExportTimeWord
+  } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "FRENCH"){
+    TSCREATEDATE = Languages.LanguageSectionPage.French.TSCREATEDATE
+    TitleThread = Languages.LanguageSectionPage.French.TitleThread
+    TitleDM = Languages.LanguageSectionPage.French.TitleDM
+    TitleDM1 = Languages.LanguageSectionPage.French.TitleDM1
+    TitleVC = Languages.LanguageSectionPage.French.TitleVC
+    TitleCT = Languages.LanguageSectionPage.French.TitleCT
+    TitleCT1 = Languages.LanguageSectionPage.French.TitleCT1
+    TitleCH = Languages.LanguageSectionPage.French.TitleCH
+    TitleCH1 = Languages.LanguageSectionPage.French.TitleCH1
+    Footer0 = Languages.LanguageSectionPage.French.Footer0
+    Footer1 = Languages.LanguageSectionPage.French.Footer1
+    Footer2 = Languages.LanguageSectionPage.French.Footer2
+    LogStart0 = Languages.LanguageSectionPage.French.LogsStart0
+    LogEnd0 = Languages.LanguageSectionPage.French.LogsEnd0
+    LogTimeWord = Languages.LanguageSectionPage.French.ExportTimeWord
   }
 
-  const profiles = buildProfiles(messages);
+
+  let StartTimer = Date.now()
+
+  let stopSpinner = loaderSystem(yellow(LogStart0));  
+
+
+  let opt = options
+  const profiles = buildProfiles(messages, opt);
   const chatBody: React.ReactElement[] = [];
 
   if(!AvailableLanguages.includes(options.Language?.toUpperCase() || "English")){
@@ -210,17 +241,21 @@ function loaderSystem(text: string) {
   }
   if(options.customCSS && !options.useNewCSS){
     if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "DUTCH"){
-      console.warn("[T4DJ | Configuration Warning] Het lijkt erop dat je wat aangepaste css wilt toevoegen, maar dat is niet mogelijk als de nieuwe css is ingeschakeld.")
+      console.log(yellowBright("[T4DJ | Configuration Warning] Het lijkt erop dat je wat aangepaste css wilt toevoegen, maar dat is niet mogelijk als de nieuwe css is ingeschakeld."))
     } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "ENGLISH"){
-      console.warn(`[T4DJ | Configuration Warning] Seems like you want to add some custom css but that isn't possible if the new css is enabled.`)
+      console.log(`[T4DJ | Configuration Warning] Seems like you want to add some custom css but that isn't possible if the new css is enabled.`)
+    } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "FRENCH"){
+      console.log(`[T4DJ | Avertissement de configuration] Il semble que vous souhaitiez ajouter du CSS personnalisé, mais cela n'est pas possible si le nouveau CSS est activé.`)
     }
   } 
   if(options.hydrate && options.useNewCSS){
     if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "DUTCH"){
-      console.warn("[T4DJ | Configuration Warning] Het lijkt erop dat je wat aangepaste css wilt toevoegen, maar dat is niet mogelijk als de nieuwe css is ingeschakeld.")
+      console.log(yellowBright("[T4DJ | Configuration Warning] Het lijkt erop dat je wat aangepaste css wilt toevoegen, maar dat is niet mogelijk als de nieuwe css is ingeschakeld."))
     } else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "ENGLISH")
-    console.warn(`[T4DJ | Configuration Warning] Hydrated files will not use custom css. Custom CSS has been disabled due to it using ONLINE services...`)
-  }
+    console.log(yellowBright(`[T4DJ | Configuration Warning] Hydrated files will not use custom css. Custom CSS has been disabled due to it using ONLINE services...`))
+    else if(AvailableLanguages.includes(options.Language?.toUpperCase() || "ENGLISH") && options.Language?.toUpperCase() == "FRENCH")
+    console.log(yellowBright(`[T4DJ | Avertissement de configuration] Les fichiers hydratés n'utiliseront pas de CSS personnalisé. Le CSS personnalisé a été désactivé en raison de son utilisation de services en ligne...`))
+  }   
 
   for (const message of messages) {
     const rendered = await renderMessage(message, {
@@ -238,10 +273,13 @@ function loaderSystem(text: string) {
 
 
   const elements = (
-    <DiscordMessages style={{ minHeight: '100vh' }}>
+  <>
+   
+        
       <style>
         {options.useNewCSS && !options.hydrate
-          ? `@import url('https://fonts.bunny.net/css?family=roboto:400,500,700');
+          ? `
+          @import url('https://fonts.bunny.net/css?family=roboto:400,500,700');
 @font-face {
   font-family:'Whitney';
   src:url('https://cdn.jsdelivr.net/gh/ItzDerock/discord-components@master/assets/fonts/Book.woff') format('woff');
@@ -266,6 +304,7 @@ function loaderSystem(text: string) {
   font-weight:700;
   font-display:swap
 }
+
 .discord-messages {
   color: ${options.customCSS.GlobalCSS?.Color ?? options.customCSS.MessagesCSS1?.Color ?? "#afafaf"};
   background-color: ${options.customCSS.GlobalCSS?.BackgroundColor ?? options.customCSS.MessagesCSS1?.BackgroundColor ?? "#1a1818"};
@@ -1272,6 +1311,7 @@ discord-underlined {
     height: 30px;
     background-color: #0A4C95;
 }
+
 /* greek */
 @font-face {
   font-family: 'Roboto';
@@ -1459,9 +1499,61 @@ discord-underlined {
   font-weight: 700;
   src: url(https://fonts.bunny.net/roboto/files/roboto-cyrillic-ext-700-normal.woff2) format('woff2'), url(https://fonts.bunny.net/roboto/files/roboto-cyrillic-ext-700-normal.woff) format('woff'); 
   unicode-range: U+0460-052F,U+1C80-1C88,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;
-}`
+}
+
+
+
+`
           : null}
       </style>
+      <style>{`
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .discord-code-block-pre--multiline {
+    width: 310px;
+  }
+}
+
+@media only screen and (min-width: 360px) {
+  /* For mobile phones: */
+  .discord-code-block-pre--multiline {
+    width: 250px;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  /* For mobile phones: */
+  .discord-code-block-pre--multiline {
+    width: 650px;
+  }
+}
+
+
+@media only screen and (min-width: 240px) {
+  /* For mobile phones: */
+  .discord-code-block-pre--multiline {
+    width: 250px;
+  }
+}
+
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+   .discord-code-block-pre--multiline {
+ width: 655px;
+  }
+  
+} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 918px) {
+   .discord-code-block-pre--multiline {
+    width: 955px;
+  }
+  
+}`}</style>
+  <DiscordMessages style={{ minHeight: '100vh' }}>
       {/* header */}
       <div style={{ textAlign: 'center', width: '100%', textDecoration: 'underline', color: options.headerColor }}>
         {options.headerText
@@ -1502,18 +1594,23 @@ discord-underlined {
           ? options.footerText
               .replaceAll('{number}', messages.length.toString())
               .replace('{s}', messages.length > 1 ? 's' : '')
+              .replace('{exporttime}', LogTimeWord +fromMs(Date.now() - StartTimer, { long: true }))
+              .replace('{expword}', Footer0)
+              .replace('{msgword}', Footer1)
           : `${Footer0} ${messages.length} ${Footer1}${messages.length > 1 ? 's' : ''}.`}{' '}
         {options.poweredBy ? (
           <span style={{ textAlign: 'center' }}>
             {Footer2}{' '}
-            <a href="https://github.com/DimSystems/T4DJ" style={{ color: 'lightblue' }}>
-              T4DJ
+            <a href="https://www.npmjs.com/package/t4discordjs" style={{ color: 'lightblue' }}>
+              Transcripts 4 Discord.JS
             </a>
             .
           </span>
         ) : null}
       </div>
     </DiscordMessages>
+  </>
+    
   );
 
   const markup = ReactDOMServer.renderToStaticMarkup(
@@ -1598,7 +1695,7 @@ if(!options.DisableTranscriptLogs){
   let TimeTaken = EndTimer - StartTimer;
 
 
-  console.log(green("Success! Your transcript is ready! It took "+ fromMs(TimeTaken, { long: true })));
+  console.log(green(LogEnd0+ fromMs(TimeTaken, { long: true })));
 
 }
  

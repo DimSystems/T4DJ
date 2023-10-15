@@ -1,8 +1,10 @@
 # `Transcripts For Discord.JS` 
 
-[![Discord](https://img.shields.io/discord/555474311637499955?label=discord)](https://discord.gg/aG6fENXT)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/DimSystems/T4DJ)
+[![Discord](https://img.shields.io/discord/1160306934537269381?label=Server)](https://discord.gg/p3npbXQHSw)
+![Download Count](https://img.shields.io/npm/dw/t4discordjs)
+[![NPM package.json version](https://img.shields.io/npm/v/t4discordjs?label=Version)](https://www.npmjs.com/package/t4discordjs)
 ![GitHub Repo stars](https://img.shields.io/github/stars/DimSystems/T4DJ?style=social)
+![NPM Size](https://img.shields.io/bundlephobia/min/t4discordjs?label=NPM%20Size&cacheSeconds=500000)
 
 Transcripts 4 Discord.JS is a highly modified version of the Discord-Html-Transcripts by derock with translations, more customaization and more. MOST components are originally made by derock and please give kudos to him
 
@@ -203,9 +205,9 @@ const attachment = await discordTranscripts.generateFromMessages(messages, chann
 | Language    | Information |   Translator   |
 | -------- | ------- | --------   |
 | English  | There by default. Developers speak and write english    |                       |
-| Brazilian | Available and optional for the brazilians     | Oreczx [Github](https://github.com/OreczXOfficial)  [Website](https://oreczxdev.xyz/)      |
+| Brazilian | Available and optional for the brazilians     | Oreczx [Github](https://github.com/OreczXOfficial) (Website is Down)    |
 | Dutch         |     Available and optional for those who speak dutch            |  Percent [Github](https://)                                        |
-| French    | Coming soon eventually    |      Looking...                |
+| French    | Available and optional for those who speak French    |      LogicNovaX [Github](https://github.com/LogicNovaX)               |
 | Spanish    | Coming soon eventually    |      Looking...                |
 
 ## 🤝 Enjoy the package?
@@ -217,3 +219,6 @@ Give it a star! ⭐
 
 ## Bug Fixes
 - Improvements
+- JSON Bug
+- Mobile Attachment Bugs
+- Language Improvement

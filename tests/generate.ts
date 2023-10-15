@@ -1,5 +1,5 @@
 import * as discord from 'discord.js';
-import { createTranscript } from '../src';
+import { createTranscript } from 't4discordjs';
 
 import { config } from 'dotenv';
 config();
@@ -16,16 +16,9 @@ client.on('ready', async () => {
     process.exit(1);
   }
 
+
   const attachment = await createTranscript(channel, {
-   Language: "English",
-   FileConfig: {
-    SaveAttachments: true,
-    SaveStickers: true,
-    SaveExternalEmojis: true,
-    AttachmentOptions: {
-      FetchAttachmentFiles: true
-    }
-   }
+   Language: "English"
   });
 
   await channel.send({

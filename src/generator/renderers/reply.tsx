@@ -3,6 +3,7 @@ import { type Message, UserFlags } from 'discord.js';
 import type { RenderMessageContext } from '..';
 import React from 'react';
 import renderContent, { RenderType } from './content';
+import { Languages } from '../../Languages';
 
 export default async function renderReply(message: Message, context: RenderMessageContext) {
   if (!message.reference) return null;
@@ -16,22 +17,23 @@ export default async function renderReply(message: Message, context: RenderMessa
   const isCommand = referencedMessage.interaction !== null;
 
 
-const AvailableLanguages = [
-  "ENGLISH", "BRAZILIAN", "DUTCH"
-]
+const AvailableLanguages = Languages.TotalLanguages;
 
   let dscmsg1 = ""
   let dscmsg2 = ""
 
   if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "ENGLISH"){
-    dscmsg1 = "Click to see command."
-    dscmsg2 = "Click to see attachment."
+    dscmsg1 = Languages.LanguageSectionReply.English.dscmsg1
+    dscmsg2 = Languages.LanguageSectionReply.English.dscmsg2
   } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "BRAZILIAN") {
-    dscmsg1 = "Clique para ver o comando."
-    dscmsg2 = "Clique para ver o anexo.."
+    dscmsg1 = Languages.LanguageSectionReply.Brazilian.dscmsg1
+    dscmsg2 = Languages.LanguageSectionReply.Brazilian.dscmsg2
   } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "DUTCH") {
-    dscmsg1 = "klik om het commando te zien."
-    dscmsg2 = "Klik om bijlage te zien."
+    dscmsg1 = Languages.LanguageSectionReply.Dutch.dscmsg1
+    dscmsg2 = Languages.LanguageSectionReply.Dutch.dscmsg2
+  } else if(AvailableLanguages.includes(context.Language?.toUpperCase() || "ENGLISH") && context.Language?.toUpperCase() == "FRENCH") {
+    dscmsg1 = Languages.LanguageSectionReply.French.dscmsg1
+    dscmsg2 = Languages.LanguageSectionReply.French.dscmsg2
   }
 
   return (

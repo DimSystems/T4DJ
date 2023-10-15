@@ -4,6 +4,8 @@ import React from 'react';
 import { request } from 'undici';
 import twemoji from 'twemoji';
 import { RenderMessageContext } from '..';
+import { Languages } from "../../Languages";
+
 export default async function renderComponentRow(row: ActionRow<MessageActionRowComponent>, id: number, context: RenderMessageContext) {
   return (
     <DiscordActionRow key={id}>
@@ -48,6 +50,22 @@ export async function renderComponent(component: MessageActionRowComponent, id: 
 
 export async function parseComponentEmoji(Emoji: Emoji | APIMessageComponentEmoji, context2: RenderMessageContext) {
 
+
+
+  const AvailableLanguages = Languages.TotalLanguages;
+
+let errorMessage = "";
+if(AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "ENGLISH"){
+  errorMessage = Languages.LanguageSectionComponent.English.errorMessage;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "DUTCH"){
+  errorMessage = Languages.LanguageSectionComponent.Dutch.errorMessage;
+} else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "BRAZILIAN"){
+  errorMessage = Languages.LanguageSectionComponent.Brazilian.errorMessage;
+}  else if (AvailableLanguages.includes(context2.Language?.toUpperCase() || "ENGLISH") && context2.Language?.toUpperCase() == "FRENCH"){
+  errorMessage = Languages.LanguageSectionComponent.French.errorMessage;
+}
+
+
   if (Emoji.id) {
     if(context2.FileConfig?.SaveExternalEmojis && context2.FileConfig.ExternalEmojiOptions?.SaveComponentEmojis){
       const response = await request(`https://cdn.discordapp.com/emojis/${Emoji.id}.${Emoji.animated ? 'gif' : 'png'}`);
@@ -62,7 +80,7 @@ export async function parseComponentEmoji(Emoji: Emoji | APIMessageComponentEmoj
         })
         .catch((err) => {
           if (!process.env.HIDE_TRANSCRIPT_ERRORS) {
-            console.error(`[T4DJ | Critical Error] Failed to download component emoji for transcript: `, err);
+            console.error(`${errorMessage}`, err);
           }
     
           return null;
